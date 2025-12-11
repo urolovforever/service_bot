@@ -14,7 +14,7 @@ from app.database.repositories import (
     ProviderRepository,
     ContactRepository,
 )
-from app.database.models import User, Provider, Rating
+from app.database.models import User, Provider
 from app.keyboards.admin import (
     get_admin_main_keyboard,
     get_locations_manage_keyboard,
@@ -40,21 +40,19 @@ def is_admin(user_id: int) -> bool:
 async def cmd_admin(message: Message):
     """Show admin panel"""
     if not is_admin(message.from_user.id):
-        await message.answer("‘ Access denied")
+        await message.answer("Access denied ‚ùå")
         return
 
-    text = "=' <b>Admin Panel</b>\n\nSelect an action:"
+    text = "<b>Admin Panel</b>\n\nSelect an action:"
     keyboard = get_admin_main_keyboard()
-
     await message.answer(text, reply_markup=keyboard)
 
 
 @router.callback_query(F.data == "admin:back")
 async def callback_admin_back(callback: CallbackQuery):
     """Back to admin main menu"""
-    text = "=' <b>Admin Panel</b>\n\nSelect an action:"
+    text = "<b>Admin Panel</b>\n\nSelect an action:"
     keyboard = get_admin_main_keyboard()
-
     await callback.message.edit_text(text, reply_markup=keyboard)
     await callback.answer()
 
@@ -66,9 +64,8 @@ async def callback_admin_locations(callback: CallbackQuery, session: AsyncSessio
     location_repo = LocationRepository(session)
     locations = await location_repo.get_all_active()
 
-    text = "=Õ <b>Manage Locations</b>\n\nClick on a location to manage it:"
+    text = "<b>Manage Locations</b>\n\nClick on a location to manage it:"
     keyboard = get_locations_manage_keyboard(locations)
-
     await callback.message.edit_text(text, reply_markup=keyboard)
     await callback.answer()
 
@@ -77,7 +74,6 @@ async def callback_admin_locations(callback: CallbackQuery, session: AsyncSessio
 async def callback_admin_location_view(callback: CallbackQuery, session: AsyncSession):
     """View location details"""
     location_id = int(callback.data.split(":")[-1])
-
     location_repo = LocationRepository(session)
     location = await location_repo.get_by_id(location_id)
 
@@ -86,12 +82,12 @@ async def callback_admin_location_view(callback: CallbackQuery, session: AsyncSe
         return
 
     text = (
-        f"=Õ <b>Location Details</b>\n\n"
+        f"<b>Location Details</b>\n\n"
         f"ID: {location.id}\n"
         f"English: {location.name_en}\n"
         f"Russian: {location.name_ru}\n"
         f"Uzbek: {location.name_uz}\n"
-        f"Status: {' Active' if location.is_active else 'L Inactive'}"
+        f"Status: {'Active ‚úÖ' if location.is_active else 'Inactive ‚ùå'}"
     )
 
     keyboard = get_location_actions_keyboard(location_id, location.is_active)
@@ -103,13 +99,11 @@ async def callback_admin_location_view(callback: CallbackQuery, session: AsyncSe
 async def callback_admin_location_toggle(callback: CallbackQuery, session: AsyncSession):
     """Toggle location active status"""
     location_id = int(callback.data.split(":")[-1])
-
     location_repo = LocationRepository(session)
     location = await location_repo.toggle_active(location_id)
 
     if location:
-        await callback.answer(f"Location {'activated' if location.is_active else 'deactivated'}")
-        # Refresh view
+        await callback.answer(f"Location {'activated ‚úÖ' if location.is_active else 'deactivated ‚ùå'}")
         await callback_admin_location_view(callback, session)
     else:
         await callback.answer("Error")
@@ -122,9 +116,8 @@ async def callback_admin_categories(callback: CallbackQuery, session: AsyncSessi
     category_repo = CategoryRepository(session)
     categories = await category_repo.get_all_active()
 
-    text = "=¬ <b>Manage Categories</b>\n\nClick on a category to manage it:"
+    text = "<b>Manage Categories</b>\n\nClick on a category to manage it:"
     keyboard = get_categories_manage_keyboard(categories)
-
     await callback.message.edit_text(text, reply_markup=keyboard)
     await callback.answer()
 
@@ -133,7 +126,6 @@ async def callback_admin_categories(callback: CallbackQuery, session: AsyncSessi
 async def callback_admin_category_view(callback: CallbackQuery, session: AsyncSession):
     """View category details"""
     category_id = int(callback.data.split(":")[-1])
-
     category_repo = CategoryRepository(session)
     category = await category_repo.get_by_id(category_id)
 
@@ -142,13 +134,13 @@ async def callback_admin_category_view(callback: CallbackQuery, session: AsyncSe
         return
 
     text = (
-        f"=¬ <b>Category Details</b>\n\n"
+        f"<b>Category Details</b>\n\n"
         f"ID: {category.id}\n"
         f"English: {category.name_en}\n"
         f"Russian: {category.name_ru}\n"
         f"Uzbek: {category.name_uz}\n"
         f"Icon: {category.icon or 'None'}\n"
-        f"Status: {' Active' if category.is_active else 'L Inactive'}"
+        f"Status: {'Active ‚úÖ' if category.is_active else 'Inactive ‚ùå'}"
     )
 
     keyboard = get_category_actions_keyboard(category_id, category.is_active)
@@ -160,12 +152,11 @@ async def callback_admin_category_view(callback: CallbackQuery, session: AsyncSe
 async def callback_admin_category_toggle(callback: CallbackQuery, session: AsyncSession):
     """Toggle category active status"""
     category_id = int(callback.data.split(":")[-1])
-
     category_repo = CategoryRepository(session)
     category = await category_repo.toggle_active(category_id)
 
     if category:
-        await callback.answer(f"Category {'activated' if category.is_active else 'deactivated'}")
+        await callback.answer(f"Category {'activated ‚úÖ' if category.is_active else 'deactivated ‚ùå'}")
         await callback_admin_category_view(callback, session)
     else:
         await callback.answer("Error")
@@ -178,9 +169,8 @@ async def callback_admin_providers(callback: CallbackQuery, session: AsyncSessio
     provider_repo = ProviderRepository(session)
     providers, _ = await provider_repo.get_filtered(approved_only=False, limit=50)
 
-    text = "=T <b>Manage Providers</b>\n\nClick on a provider to manage it:"
+    text = "<b>Manage Providers</b>\n\nClick on a provider to manage it:"
     keyboard = get_providers_manage_keyboard(providers)
-
     await callback.message.edit_text(text, reply_markup=keyboard)
     await callback.answer()
 
@@ -189,7 +179,6 @@ async def callback_admin_providers(callback: CallbackQuery, session: AsyncSessio
 async def callback_admin_provider_view(callback: CallbackQuery, session: AsyncSession):
     """View provider details"""
     provider_id = int(callback.data.split(":")[-1])
-
     provider_repo = ProviderRepository(session)
     provider = await provider_repo.get_by_id(provider_id)
 
@@ -198,7 +187,7 @@ async def callback_admin_provider_view(callback: CallbackQuery, session: AsyncSe
         return
 
     text = (
-        f"=T <b>Provider Details</b>\n\n"
+        f"<b>Provider Details</b>\n\n"
         f"ID: {provider.id}\n"
         f"Name: {provider.name}\n"
         f"Description: {provider.description[:100]}...\n"
@@ -208,8 +197,8 @@ async def callback_admin_provider_view(callback: CallbackQuery, session: AsyncSe
         f"Rating: {provider.average_rating:.1f}/5.0 ({provider.rating_count} reviews)\n"
         f"Views: {provider.view_count}\n"
         f"Contacts: {provider.contact_count}\n"
-        f"Status: {' Active' if provider.is_active else 'L Inactive'}\n"
-        f"Approved: {' Yes' if provider.is_approved else 'Û Pending'}"
+        f"Status: {'Active ‚úÖ' if provider.is_active else 'Inactive ‚ùå'}\n"
+        f"Approved: {'Yes ‚úÖ' if provider.is_approved else 'Pending ‚ùå'}"
     )
 
     keyboard = get_provider_actions_keyboard(provider_id, provider.is_active, provider.is_approved)
@@ -217,45 +206,15 @@ async def callback_admin_provider_view(callback: CallbackQuery, session: AsyncSe
     await callback.answer()
 
 
-@router.callback_query(F.data.startswith("admin:provider:approve:"))
-async def callback_admin_provider_approve(callback: CallbackQuery, session: AsyncSession):
-    """Approve provider"""
-    provider_id = int(callback.data.split(":")[-1])
-
-    provider_repo = ProviderRepository(session)
-    provider = await provider_repo.approve(provider_id)
-
-    if provider:
-        await callback.answer(" Provider approved")
-        await callback_admin_provider_view(callback, session)
-    else:
-        await callback.answer("Error")
-
-
-@router.callback_query(F.data.startswith("admin:provider:toggle:"))
-async def callback_admin_provider_toggle(callback: CallbackQuery, session: AsyncSession):
-    """Toggle provider active status"""
-    provider_id = int(callback.data.split(":")[-1])
-
-    provider_repo = ProviderRepository(session)
-    provider = await provider_repo.toggle_active(provider_id)
-
-    if provider:
-        await callback.answer(f"Provider {'activated' if provider.is_active else 'deactivated'}")
-        await callback_admin_provider_view(callback, session)
-    else:
-        await callback.answer("Error")
-
-
+# APPROVE PROVIDERS
 @router.callback_query(F.data == "admin:approve")
 async def callback_admin_approve(callback: CallbackQuery, session: AsyncSession):
     """Show unapproved providers"""
     provider_repo = ProviderRepository(session)
     providers = await provider_repo.get_unapproved()
 
-    text = f" <b>Approve Providers</b>\n\n{len(providers)} pending approval"
+    text = f"<b>Approve Providers</b>\n\n{len(providers)} pending approval"
     keyboard = get_approve_providers_keyboard(providers)
-
     await callback.message.edit_text(text, reply_markup=keyboard)
     await callback.answer()
 
@@ -264,9 +223,8 @@ async def callback_admin_approve(callback: CallbackQuery, session: AsyncSession)
 @router.callback_query(F.data == "admin:stats")
 async def callback_admin_stats(callback: CallbackQuery):
     """Show statistics menu"""
-    text = "=  <b>Statistics</b>\n\nSelect a report:"
+    text = "<b>Statistics</b>\n\nSelect a report:"
     keyboard = get_statistics_keyboard()
-
     await callback.message.edit_text(text, reply_markup=keyboard)
     await callback.answer()
 
@@ -280,11 +238,7 @@ async def callback_admin_stats_users(callback: CallbackQuery, session: AsyncSess
     result = await session.execute(select(func.count()).select_from(User).where(User.is_active == True))
     active_users = result.scalar_one()
 
-    text = (
-        f"=e <b>User Statistics</b>\n\n"
-        f"Total Users: {total_users}\n"
-        f"Active Users: {active_users}\n"
-    )
+    text = f"<b>User Statistics</b>\n\nTotal Users: {total_users}\nActive Users: {active_users}\n"
 
     await callback.answer()
     await callback.message.answer(text)
@@ -307,7 +261,7 @@ async def callback_admin_stats_providers(callback: CallbackQuery, session: Async
     pending_providers = result.scalar_one()
 
     text = (
-        f"=T <b>Provider Statistics</b>\n\n"
+        f"<b>Provider Statistics</b>\n\n"
         f"Total Providers: {total_providers}\n"
         f"Active Providers: {active_providers}\n"
         f"Pending Approval: {pending_providers}\n"
@@ -323,9 +277,9 @@ async def callback_admin_stats_toprated(callback: CallbackQuery, session: AsyncS
     provider_repo = ProviderRepository(session)
     providers, _ = await provider_repo.get_filtered(approved_only=True, limit=10)
 
-    text = "P <b>Top Rated Providers</b>\n\n"
+    text = "<b>Top Rated Providers</b>\n\n"
     for i, provider in enumerate(providers[:10], 1):
-        text += f"{i}. {provider.name} - {provider.average_rating:.1f}P ({provider.rating_count} reviews)\n"
+        text += f"{i}. {provider.name} - {provider.average_rating:.1f}/5.0 ({provider.rating_count} reviews)\n"
 
     await callback.answer()
     await callback.message.answer(text)
@@ -337,7 +291,7 @@ async def callback_admin_stats_contacted(callback: CallbackQuery, session: Async
     contact_repo = ContactRepository(session)
     most_contacted = await contact_repo.get_most_contacted_providers(limit=10)
 
-    text = "=ﬁ <b>Most Contacted Providers</b>\n\n"
+    text = "<b>Most Contacted Providers</b>\n\n"
     for i, (provider, count) in enumerate(most_contacted, 1):
         text += f"{i}. {provider.name} - {count} contacts\n"
 
