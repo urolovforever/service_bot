@@ -21,7 +21,7 @@ async def callback_contact_provider(callback: CallbackQuery, session: AsyncSessi
 
     user_repo = UserRepository(session)
     user = await user_repo.get_by_telegram_id(callback.from_user.id)
-    lang = user.language_code if user else "en"
+    lang = user.language_code if user else "ru"
 
     # Check rate limit
     contact_count = await redis_service.get_rate_limit(callback.from_user.id, "contact")

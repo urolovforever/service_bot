@@ -1,6 +1,7 @@
 """Rating handlers"""
 
 import logging
+from typing import Optional
 from aiogram import Router, F
 from aiogram.types import CallbackQuery, Message
 from aiogram.fsm.context import FSMContext
@@ -30,7 +31,7 @@ async def callback_rate_provider(callback: CallbackQuery, session: AsyncSession)
 
     user_repo = UserRepository(session)
     user = await user_repo.get_by_telegram_id(callback.from_user.id)
-    lang = user.language_code if user else "en"
+    lang = user.language_code if user else "ru"
 
     # Check rate limit
     rating_repo = RatingRepository(session)
@@ -57,7 +58,7 @@ async def callback_rating_select(callback: CallbackQuery, state: FSMContext, ses
 
     user_repo = UserRepository(session)
     user = await user_repo.get_by_telegram_id(callback.from_user.id)
-    lang = user.language_code if user else "en"
+    lang = user.language_code if user else "ru"
 
     # Store rating in state
     await state.update_data(provider_id=provider_id, rating=rating_value)
@@ -105,12 +106,12 @@ async def callback_rating_cancel(callback: CallbackQuery, state: FSMContext):
 
 
 async def save_rating(
-    user_id: int, provider_id: int, rating: int, comment: str | None, session: AsyncSession
+    user_id: int, provider_id: int, rating: int, comment: Optional[str], session: AsyncSession
 ):
     """Save rating to database"""
     user_repo = UserRepository(session)
     user = await user_repo.get_by_telegram_id(user_id)
-    lang = user.language_code if user else "en"
+    lang = user.language_code if user else "ru"
 
     # Save rating
     rating_repo = RatingRepository(session)
