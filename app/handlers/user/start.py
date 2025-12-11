@@ -88,7 +88,7 @@ async def cmd_help(message: Message, session: AsyncSession):
 
 
 @router.message(Command("language"))
-@router.message(F.text.in_(["Yazyk", "Til", "Language"]))
+@router.message(F.text.in_(["🌐 Language", "🌐 Yazyk", "🌐 Til"]))
 async def cmd_language(message: Message):
     """Handle language change"""
     keyboard = get_language_keyboard()

@@ -52,7 +52,7 @@ async def callback_remove_favorite(callback: CallbackQuery, session: AsyncSessio
 
 
 @router.message(Command("myfavorites"))
-@router.message(F.text.in_(["My Favorites", "Izbrannoe", "Sevimlilar"]))
+@router.message(F.text.in_(["❤️ My Favorites", "❤️ Izbrannoe", "❤️ Sevimlilar"]))
 async def cmd_favorites(message: Message, session: AsyncSession):
     """Show user favorites"""
     user_repo = UserRepository(session)

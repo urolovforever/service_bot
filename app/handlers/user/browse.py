@@ -21,7 +21,7 @@ logger = logging.getLogger(__name__)
 router = Router()
 
 
-@router.message(F.text.in_(["Browse Services", "Poisk uslug", "Xizmatlarni korish"]))
+@router.message(F.text.in_(["🔍 Browse Services", "🔍 Poisk uslug", "🔍 Xizmatlarni korish"]))
 async def browse_start(message: Message, session: AsyncSession):
     """Start browsing - select location"""
     user_repo = UserRepository(session)
