@@ -1,0 +1,23 @@
+{
+  "welcome": "=K Xizmatlar bozori botiga xush kelibsiz!\n\nO'z hududingizdagi xizmat ko'rsatuvchilarni toping va bog'laning.\n\nQuyidagi menyudan variantni tanlang:",
+  "select_location": "=Í Iltimos, joylashuvingizni tanlang:",
+  "select_category": "=Â Iltimos, kategoriyani tanlang:",
+  "no_providers": "= Bu kategoriyada xizmat ko'rsatuvchilar topilmadi.\n\nBoshqa kategoriya yoki joylashuvni sinab ko'ring.",
+  "provider_info": "=Ë <b>{name}</b>\n\n{description}\n\n=° Narx: {price}\n=Í Joylashuv: {location}\n=Â Kategoriya: {category}\nP Reyting: {rating}/5.0 ({count} sharh)\n=Þ Ko'rishlar: {views} | Kontaktlar: {contacts}",
+  "contact_info": "=Þ <b>Aloqa ma'lumotlari:</b>\n\n",
+  "contact_phone": "Telefon: {phone}\n",
+  "contact_telegram": "Telegram: @{username}\n",
+  "contact_saved": " Aloqa ma'lumotlari saqlandi! Xizmat ko'rsatuvchi xabardor qilindi.",
+  "contact_limit": "  Siz kontaktlar limitiga yetdingiz (soatiga {limit}). Keyinroq urinib ko'ring.",
+  "rate_provider": "P Iltimos, bu xizmat ko'rsatuvchini baholang (1-5 yulduz):",
+  "add_comment": "=¬ Sharh qo'shing (ixtiyoriy):\n\nYoki baholashni yakunlash uchun o'tkazib yuboring.",
+  "rating_saved": " Baholaganingiz uchun rahmat!",
+  "rating_updated": " Sizning bahoingiz yangilandi!",
+  "rating_limit": "  Siz baholash limitiga yetdingiz (kuniga {limit}). Ertaga urinib ko'ring.",
+  "favorite_added": "d Sevimlilarga qo'shildi!",
+  "favorite_removed": "=” Sevimlilardan o'chirildi.",
+  "no_favorites": "= Sizda hali sevimlilar yo'q.\n\nSevimli xizmat ko'rsatuvchilaringizni saqlash uchun ko'rishni boshlang!",
+  "language_changed": " Til o'zbek tiliga o'zgartirildi",
+  "error": "L Xatolik yuz berdi. Iltimos, qayta urinib ko'ring.",
+  "back_to_menu": "Ko'rishni davom ettirish uchun menyudan foydalaning."
+}
