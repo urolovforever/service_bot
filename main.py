@@ -45,7 +45,7 @@ async def on_startup(bot: Bot, dp: Dispatcher):
         # Notify admins
         for admin_id in settings.admin_list:
             try:
-                await bot.send_message(admin_id, "> Bot has been started!")
+                await bot.send_message(admin_id, "🤖 Bot has been started!")
             except Exception as e:
                 logger.warning(f"Failed to notify admin {admin_id}: {e}")
 
@@ -64,7 +64,7 @@ async def on_shutdown(bot: Bot):
     # Notify admins
     for admin_id in settings.admin_list:
         try:
-            await bot.send_message(admin_id, "=4 Bot has been stopped!")
+            await bot.send_message(admin_id, "🔴 Bot has been stopped!")
         except Exception as e:
             logger.warning(f"Failed to notify admin {admin_id}: {e}")
 
@@ -77,9 +77,8 @@ async def main():
     bot = create_bot()
     dp = create_dispatcher()
 
-    # Register startup/shutdown handlers
-    dp.startup.register(lambda: on_startup(bot, dp))
-    dp.shutdown.register(lambda: on_shutdown(bot))
+    # Run startup actions
+    await on_startup(bot, dp)
 
     try:
         # Start polling
@@ -88,6 +87,8 @@ async def main():
     except Exception as e:
         logger.error(f"Error during polling: {e}")
     finally:
+        # Run shutdown actions
+        await on_shutdown(bot)
         await bot.session.close()
 
 
