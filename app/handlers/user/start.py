@@ -26,7 +26,7 @@ async def cmd_start(message: Message, session: AsyncSession):
         username=message.from_user.username,
         first_name=message.from_user.first_name,
         last_name=message.from_user.last_name,
-        language_code=message.from_user.language_code or "en",
+        language_code=message.from_user.language_code or "ru",
     )
 
     logger.info(f"User {user.telegram_id} started the bot")
@@ -46,60 +46,60 @@ async def cmd_help(message: Message, session: AsyncSession):
     """Handle /help command"""
     user_repo = UserRepository(session)
     user = await user_repo.get_by_telegram_id(message.from_user.id)
-    lang = user.language_code if user else "en"
+    lang = user.language_code if user else "ru"
 
     help_text = {
         "en": (
-            "=Ö <b>Help</b>\n\n"
-            "= <b>Browse Services</b> - Find service providers\n"
-            "d <b>My Favorites</b> - View your saved providers\n"
-            "< <b>Language</b> - Change bot language\n\n"
-            "<b>Commands:</b>\n"
+            "Help\n\n"
+            "Browse Services - Find service providers\n"
+            "My Favorites - View your saved providers\n"
+            "Language - Change bot language\n\n"
+            "Commands:\n"
             "/start - Start the bot\n"
             "/help - Show this help message\n"
             "/myfavorites - View your favorites\n"
             "/language - Change language"
         ),
         "ru": (
-            "=Ö <b>><>IL</b>\n\n"
-            "= <b>>8A: CA;C3</b> - 09B8 ?>AB02I8:>2 CA;C3\n"
-            "d <b>71@0==>5</b> - @>A<>B@ A>E@0=5==KE ?>AB02I8:>2\n"
-            "< <b>/7K:</b> - 7<5=8BL O7K: 1>B0\n\n"
-            "<b>><0=4K:</b>\n"
-            "/start - 0?CAB8BL 1>B0\n"
-            "/help - >:070BL MB> A>>1I5=85\n"
-            "/myfavorites - @>A<>B@ 871@0==>3>\n"
-            "/language - 7<5=8BL O7K:"
+            "Pomosh\n\n"
+            "Poisk uslug - Nayti postavshchikov uslug\n"
+            "Izbrannoe - Prosmotr sohranennyh postavshchikov\n"
+            "Yazyk - Izmenit yazyk bota\n\n"
+            "Komandy:\n"
+            "/start - Zapustit bota\n"
+            "/help - Pokazat eto soobshenie\n"
+            "/myfavorites - Prosmotr izbrannogo\n"
+            "/language - Izmenit yazyk"
         ),
         "uz": (
-            "=Ö <b>Yordam</b>\n\n"
-            "= <b>Xizmatlarni ko'rish</b> - Xizmat ko'rsatuvchilarni topish\n"
-            "d <b>Sevimlilar</b> - Saqlangan provayderlarni ko'rish\n"
-            "< <b>Til</b> - Bot tilini o'zgartirish\n\n"
-            "<b>Buyruqlar:</b>\n"
+            "Yordam\n\n"
+            "Xizmatlarni korish - Xizmat korsatuvchilarni topish\n"
+            "Sevimlilar - Saqlangan provayderlarni korish\n"
+            "Til - Bot tilini ozgartirish\n\n"
+            "Buyruqlar:\n"
             "/start - Botni ishga tushirish\n"
-            "/help - Ushbu xabarni ko'rsatish\n"
-            "/myfavorites - Sevimlilarni ko'rish\n"
-            "/language - Tilni o'zgartirish"
+            "/help - Ushbu xabarni korsatish\n"
+            "/myfavorites - Sevimlilarni korish\n"
+            "/language - Tilni ozgartirish"
         ),
     }
 
-    await message.answer(help_text.get(lang, help_text["en"]))
+    await message.answer(help_text.get(lang, help_text["ru"]))
 
 
 @router.message(Command("language"))
-@router.message(F.text.in_(["< Language", "< /7K:", "< Til"]))
+@router.message(F.text.in_(["Yazyk", "Til", "Language"]))
 async def cmd_language(message: Message):
     """Handle language change"""
     keyboard = get_language_keyboard()
 
     texts = {
-        "en": "< Choose your language:",
-        "ru": "< K15@8B5 20H O7K::",
-        "uz": "< Tilingizni tanlang:",
+        "en": "Choose your language:",
+        "ru": "Vyberite vash yazyk:",
+        "uz": "Tilingizni tanlang:",
     }
 
-    await message.answer(texts.get("en"), reply_markup=keyboard)
+    await message.answer(texts.get("ru"), reply_markup=keyboard)
 
 
 @router.callback_query(F.data.startswith("lang:"))

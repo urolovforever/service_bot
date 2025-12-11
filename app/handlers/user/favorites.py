@@ -22,7 +22,7 @@ async def callback_add_favorite(callback: CallbackQuery, session: AsyncSession):
 
     user_repo = UserRepository(session)
     user = await user_repo.get_by_telegram_id(callback.from_user.id)
-    lang = user.language_code if user else "en"
+    lang = user.language_code if user else "ru"
 
     # Add to favorites
     favorite_repo = FavoriteRepository(session)
@@ -40,7 +40,7 @@ async def callback_remove_favorite(callback: CallbackQuery, session: AsyncSessio
 
     user_repo = UserRepository(session)
     user = await user_repo.get_by_telegram_id(callback.from_user.id)
-    lang = user.language_code if user else "en"
+    lang = user.language_code if user else "ru"
 
     # Remove from favorites
     favorite_repo = FavoriteRepository(session)
@@ -52,12 +52,12 @@ async def callback_remove_favorite(callback: CallbackQuery, session: AsyncSessio
 
 
 @router.message(Command("myfavorites"))
-@router.message(F.text.in_(["d My Favorites", "d 71@0==>5", "d Sevimlilar"]))
+@router.message(F.text.in_(["My Favorites", "Izbrannoe", "Sevimlilar"]))
 async def cmd_favorites(message: Message, session: AsyncSession):
     """Show user favorites"""
     user_repo = UserRepository(session)
     user = await user_repo.get_by_telegram_id(message.from_user.id)
-    lang = user.language_code if user else "en"
+    lang = user.language_code if user else "ru"
 
     # Get favorites
     favorite_repo = FavoriteRepository(session)
@@ -96,7 +96,7 @@ async def show_favorite(message: Message, user_id: int, session: AsyncSession, i
     # Get user info
     user_repo = UserRepository(session)
     user = await user_repo.get_by_telegram_id(user_id)
-    lang = user.language_code if user else "en"
+    lang = user.language_code if user else "ru"
 
     # Format provider info
     location_name = getattr(provider.location, f"name_{lang}", provider.location.name_en)

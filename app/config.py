@@ -24,7 +24,7 @@ class Settings(BaseSettings):
     REDIS_DB: int = 0
 
     # Application Settings
-    DEFAULT_LANGUAGE: str = "en"
+    DEFAULT_LANGUAGE: str = "ru"
     LOG_LEVEL: str = "INFO"
     SESSION_TTL: int = 3600
 

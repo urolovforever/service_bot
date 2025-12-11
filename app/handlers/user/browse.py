@@ -21,12 +21,12 @@ logger = logging.getLogger(__name__)
 router = Router()
 
 
-@router.message(F.text.in_(["= Browse Services", "= >8A: CA;C3", "= Xizmatlarni ko'rish"]))
+@router.message(F.text.in_(["Browse Services", "Poisk uslug", "Xizmatlarni korish"]))
 async def browse_start(message: Message, session: AsyncSession):
     """Start browsing - select location"""
     user_repo = UserRepository(session)
     user = await user_repo.get_by_telegram_id(message.from_user.id)
-    lang = user.language_code if user else "en"
+    lang = user.language_code if user else "ru"
 
     # Get active locations
     location_repo = LocationRepository(session)
@@ -53,7 +53,7 @@ async def callback_location_select(callback: CallbackQuery, session: AsyncSessio
 
     user_repo = UserRepository(session)
     user = await user_repo.get_by_telegram_id(callback.from_user.id)
-    lang = user.language_code if user else "en"
+    lang = user.language_code if user else "ru"
 
     # Save location to session
     await redis_service.set_session(callback.from_user.id, "selected_location", location_id)
@@ -81,7 +81,7 @@ async def callback_category_select(callback: CallbackQuery, session: AsyncSessio
 
     user_repo = UserRepository(session)
     user = await user_repo.get_by_telegram_id(callback.from_user.id)
-    lang = user.language_code if user else "en"
+    lang = user.language_code if user else "ru"
 
     # Get selected location
     location_id = await redis_service.get_session(callback.from_user.id, "selected_location")
@@ -143,7 +143,7 @@ async def show_provider(message: Message, user_id: int, session: AsyncSession, i
     # Get user info
     user_repo = UserRepository(session)
     user = await user_repo.get_by_telegram_id(user_id)
-    lang = user.language_code if user else "en"
+    lang = user.language_code if user else "ru"
 
     # Check if user has rated
     rating_repo = RatingRepository(session)
@@ -247,7 +247,7 @@ async def callback_browse_back(callback: CallbackQuery, session: AsyncSession):
     """Go back to category selection"""
     user_repo = UserRepository(session)
     user = await user_repo.get_by_telegram_id(callback.from_user.id)
-    lang = user.language_code if user else "en"
+    lang = user.language_code if user else "ru"
 
     # Get active categories
     category_repo = CategoryRepository(session)

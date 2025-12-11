@@ -1,23 +1,23 @@
 {
-  "welcome": "=K >1@> ?>60;>20BL 2 1>B 0@:5B?;59A CA;C3!\n\n0948B5 8 A2O68B5AL A ?>AB02I8:0<8 CA;C3 2 20H5< @09>=5.\n\nK15@8B5 >?F8N 87 <5=N =865:",
-  "select_location": "=Í >60;C9AB0, 2K15@8B5 20H5 <5AB>?>;>65=85:",
-  "select_category": "=Â >60;C9AB0, 2K15@8B5 :0B53>@8N:",
-  "no_providers": "= >AB02I8:8 2 MB>9 :0B53>@88 =5 =0945=K.\n\n>?@>1C9B5 4@C3CN :0B53>@8N 8;8 <5AB>?>;>65=85.",
-  "provider_info": "=Ë <b>{name}</b>\n\n{description}\n\n=° &5=0: {price}\n=Í 5AB>?>;>65=85: {location}\n=Â 0B53>@8O: {category}\nP  59B8=3: {rating}/5.0 ({count} >B7K2>2)\n=Þ @>A<>B@K: {views} | >=B0:BK: {contacts}",
-  "contact_info": "=Þ <b>>=B0:B=0O 8=D>@<0F8O:</b>\n\n",
-  "contact_phone": ""5;5D>=: {phone}\n",
+  "welcome": "Dobro pozhalovat v bot Marketpleys uslug!\n\nNaydite i svazhites s postavshchikami uslug v vashem rayone.\n\nVyberite optsiu iz menyu nizhe:",
+  "select_location": "Pozhaluysta, vyberite vashe mestopolozhenie:",
+  "select_category": "Pozhaluysta, vyberite kategoriyu:",
+  "no_providers": "Postavshchiki v etoy kategorii ne naydeny.\n\nPoprobuite druguyu kategoriyu ili mestopolozhenie.",
+  "provider_info": "{name}\n\n{description}\n\nTsena: {price}\n Mestopolozhenie: {location}\n Kategoriya: {category}\n Reyting: {rating}/5.0 ({count} otzyvov)\n Prosmotryi: {views} | Kontaktyi: {contacts}",
+  "contact_info": "Kontaktnaya informatsiya:\n\n",
+  "contact_phone": "Telefon: {phone}\n",
   "contact_telegram": "Telegram: @{username}\n",
-  "contact_saved": " >=B0:B=0O 8=D>@<0F8O A>E@0=5=0! >AB02I8: C254><;5=.",
-  "contact_limit": "  K 4>AB83;8 ;8<8B0 :>=B0:B>2 ({limit} 2 G0A). >?@>1C9B5 ?>765.",
-  "rate_provider": "P >60;C9AB0, >F5=8B5 MB>3> ?>AB02I8:0 (1-5 72574):",
-  "add_comment": "=¬ >102LB5 :><<5=B0@89 (=5>1O70B5;L=>):\n\n;8 ?@>?CAB8B5, GB>1K 7025@H8BL >F5=:C.",
-  "rating_saved": " !?0A81> 70 20HC >F5=:C!",
-  "rating_updated": " 0H0 >F5=:0 >1=>2;5=0!",
-  "rating_limit": "  K 4>AB83;8 ;8<8B0 >F5=>: ({limit} 2 45=L). >?@>1C9B5 702B@0.",
-  "favorite_added": "d >102;5=> 2 871@0==>5!",
-  "favorite_removed": "=” #40;5=> 87 871@0==>3>.",
-  "no_favorites": "= # 20A ?>:0 =5B 871@0==>3>.\n\n0G=8B5 ?@>A<>B@, GB>1K A>E@0=8BL ;N18<KE ?>AB02I8:>2!",
-  "language_changed": " /7K: 87<5=5= =0 @CAA:89",
-  "error": "L @>87>H;0 >H81:0. >60;C9AB0, ?>?@>1C9B5 5I5 @07.",
-  "back_to_menu": "A?>;L7C9B5 <5=N 4;O ?@>4>;65=8O ?@>A<>B@0."
+  "contact_saved": "Kontaktnaya informatsiya sohranena! Postavshchik uvedomlen.",
+  "contact_limit": "Vyi dostigli limita kontaktov ({limit} v chas). Poprobuite pozzhe.",
+  "rate_provider": "Pozhaluysta, otsenite etogo postavshchika (1-5 zvezd):",
+  "add_comment": "Dobavte kommentariy (neobyazatelno):\n\nIli propustite, chtoby zavershit otsenku.",
+  "rating_saved": "Spasibo za vashu otsenku!",
+  "rating_updated": "Vasha otsenka obnovlena!",
+  "rating_limit": "Vyi dostigli limita otsenok ({limit} v den). Poprobuite zavtra.",
+  "favorite_added": "Dobavleno v izbrannoe!",
+  "favorite_removed": "Udaleno iz izbrannogo.",
+  "no_favorites": "U vas poka net izbrannogo.\n\nNachnite prosmotr, chtoby sohranit lyubimyih postavshchikov!",
+  "language_changed": "Yazyik izmenen na russkiy",
+  "error": "Proizoshla oshibka. Pozhaluysta, poprobuite eshche raz.",
+  "back_to_menu": "Ispolzuite menyu dlya prodolzheniya prosmotra."
 }
