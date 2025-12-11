@@ -20,6 +20,10 @@ async def cmd_start(message: Message, session: AsyncSession):
     """Handle /start command"""
     user_repo = UserRepository(session)
 
+    # Check if user already exists
+    existing_user = await user_repo.get_by_telegram_id(message.from_user.id)
+    is_new_user = existing_user is None
+
     # Get or create user
     user = await user_repo.get_or_create(
         telegram_id=message.from_user.id,
@@ -29,10 +33,19 @@ async def cmd_start(message: Message, session: AsyncSession):
         language_code=message.from_user.language_code or "ru",
     )
 
-    logger.info(f"User {user.telegram_id} started the bot")
+    logger.info(f"User {user.telegram_id} {'registered' if is_new_user else 'started'} the bot")
 
     # Get user language
     lang = user.language_code
+
+    # Send registration confirmation for new users
+    if is_new_user:
+        registration_texts = {
+            "en": "✅ You have been successfully registered!",
+            "ru": "✅ Siz muvaffaqiyatli ro'yxatdan o'tdingiz!",
+            "uz": "✅ Siz muvaffaqiyatli ro'yxatdan o'tdingiz!",
+        }
+        await message.answer(registration_texts.get(lang, registration_texts["ru"]))
 
     # Send welcome message
     welcome_text = get_text("welcome", lang)
