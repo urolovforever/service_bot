@@ -3,12 +3,16 @@
 import asyncio
 import logging
 import sys
+from pathlib import Path
 from aiogram import Bot, Dispatcher
 
 from app.config import settings
 from app.bot import create_bot, create_dispatcher
 from app.database.session import init_db
 from app.services.redis_service import redis_service
+
+# Create logs directory if it doesn't exist
+Path("logs").mkdir(exist_ok=True)
 
 # Configure logging
 logging.basicConfig(
