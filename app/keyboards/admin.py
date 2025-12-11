@@ -1,4 +1,4 @@
-"""Admin keyboards"""
+"""Admin keyboards with proper UTF-8 emojis"""
 
 from typing import List
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton
@@ -9,16 +9,16 @@ def get_admin_main_keyboard() -> InlineKeyboardMarkup:
     """Get admin main menu keyboard"""
     buttons = [
         [
-            InlineKeyboardButton(text="=� Manage Locations", callback_data="admin:locations"),
-            InlineKeyboardButton(text="=� Manage Categories", callback_data="admin:categories"),
+            InlineKeyboardButton(text="📍 Manage Locations", callback_data="admin:locations"),
+            InlineKeyboardButton(text="📂 Manage Categories", callback_data="admin:categories"),
         ],
         [
-            InlineKeyboardButton(text="=T Manage Providers", callback_data="admin:providers"),
-            InlineKeyboardButton(text=" Approve Providers", callback_data="admin:approve"),
+            InlineKeyboardButton(text="👔 Manage Providers", callback_data="admin:providers"),
+            InlineKeyboardButton(text="✅ Approve Providers", callback_data="admin:approve"),
         ],
         [
-            InlineKeyboardButton(text="=� Statistics", callback_data="admin:stats"),
-            InlineKeyboardButton(text="=� Send Announcement", callback_data="admin:announce"),
+            InlineKeyboardButton(text="📊 Statistics", callback_data="admin:stats"),
+            InlineKeyboardButton(text="📢 Send Announcement", callback_data="admin:announce"),
         ],
     ]
 
@@ -31,7 +31,7 @@ def get_locations_manage_keyboard(locations: List[Location]) -> InlineKeyboardMa
     buttons = []
 
     for location in locations:
-        status = "" if location.is_active else "L"
+        status = "✅" if location.is_active else "❌"
         buttons.append(
             [
                 InlineKeyboardButton(
@@ -40,8 +40,8 @@ def get_locations_manage_keyboard(locations: List[Location]) -> InlineKeyboardMa
             ]
         )
 
-    buttons.append([InlineKeyboardButton(text="� Add Location", callback_data="admin:location:add")])
-    buttons.append([InlineKeyboardButton(text="= Back", callback_data="admin:back")])
+    buttons.append([InlineKeyboardButton(text="➕ Add Location", callback_data="admin:location:add")])
+    buttons.append([InlineKeyboardButton(text="🔙 Back", callback_data="admin:back")])
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
     return keyboard
@@ -51,13 +51,13 @@ def get_location_actions_keyboard(location_id: int, is_active: bool) -> InlineKe
     """Get location actions keyboard"""
     buttons = [
         [
-            InlineKeyboardButton(text=" Edit", callback_data=f"admin:location:edit:{location_id}"),
+            InlineKeyboardButton(text="✏️ Edit", callback_data=f"admin:location:edit:{location_id}"),
             InlineKeyboardButton(
-                text="= Toggle" if is_active else " Activate", callback_data=f"admin:location:toggle:{location_id}"
+                text="🔄 Toggle" if is_active else "✅ Activate", callback_data=f"admin:location:toggle:{location_id}"
             ),
         ],
-        [InlineKeyboardButton(text="=� Delete", callback_data=f"admin:location:delete:{location_id}")],
-        [InlineKeyboardButton(text="= Back", callback_data="admin:locations")],
+        [InlineKeyboardButton(text="🗑 Delete", callback_data=f"admin:location:delete:{location_id}")],
+        [InlineKeyboardButton(text="🔙 Back", callback_data="admin:locations")],
     ]
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
@@ -69,8 +69,8 @@ def get_categories_manage_keyboard(categories: List[Category]) -> InlineKeyboard
     buttons = []
 
     for category in categories:
-        status = "" if category.is_active else "L"
-        icon = category.icon or "=�"
+        status = "✅" if category.is_active else "❌"
+        icon = category.icon or "📋"
         buttons.append(
             [
                 InlineKeyboardButton(
@@ -79,8 +79,8 @@ def get_categories_manage_keyboard(categories: List[Category]) -> InlineKeyboard
             ]
         )
 
-    buttons.append([InlineKeyboardButton(text="� Add Category", callback_data="admin:category:add")])
-    buttons.append([InlineKeyboardButton(text="= Back", callback_data="admin:back")])
+    buttons.append([InlineKeyboardButton(text="➕ Add Category", callback_data="admin:category:add")])
+    buttons.append([InlineKeyboardButton(text="🔙 Back", callback_data="admin:back")])
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
     return keyboard
@@ -90,13 +90,13 @@ def get_category_actions_keyboard(category_id: int, is_active: bool) -> InlineKe
     """Get category actions keyboard"""
     buttons = [
         [
-            InlineKeyboardButton(text=" Edit", callback_data=f"admin:category:edit:{category_id}"),
+            InlineKeyboardButton(text="✏️ Edit", callback_data=f"admin:category:edit:{category_id}"),
             InlineKeyboardButton(
-                text="= Toggle" if is_active else " Activate", callback_data=f"admin:category:toggle:{category_id}"
+                text="🔄 Toggle" if is_active else "✅ Activate", callback_data=f"admin:category:toggle:{category_id}"
             ),
         ],
-        [InlineKeyboardButton(text="=� Delete", callback_data=f"admin:category:delete:{category_id}")],
-        [InlineKeyboardButton(text="= Back", callback_data="admin:categories")],
+        [InlineKeyboardButton(text="🗑 Delete", callback_data=f"admin:category:delete:{category_id}")],
+        [InlineKeyboardButton(text="🔙 Back", callback_data="admin:categories")],
     ]
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
@@ -108,8 +108,8 @@ def get_providers_manage_keyboard(providers: List[Provider], offset: int = 0) ->
     buttons = []
 
     for provider in providers[:10]:  # Show 10 per page
-        status = "" if provider.is_active else "L"
-        approved = "" if provider.is_approved else "�"
+        status = "✅" if provider.is_active else "❌"
+        approved = "✓" if provider.is_approved else "⏳"
         buttons.append(
             [
                 InlineKeyboardButton(
@@ -121,15 +121,15 @@ def get_providers_manage_keyboard(providers: List[Provider], offset: int = 0) ->
     # Pagination
     nav_row = []
     if offset > 0:
-        nav_row.append(InlineKeyboardButton(text="� Previous", callback_data=f"admin:providers:page:{offset - 10}"))
+        nav_row.append(InlineKeyboardButton(text="◀️ Previous", callback_data=f"admin:providers:page:{offset - 10}"))
     if len(providers) > 10:
-        nav_row.append(InlineKeyboardButton(text="Next �", callback_data=f"admin:providers:page:{offset + 10}"))
+        nav_row.append(InlineKeyboardButton(text="Next ▶️", callback_data=f"admin:providers:page:{offset + 10}"))
 
     if nav_row:
         buttons.append(nav_row)
 
-    buttons.append([InlineKeyboardButton(text="� Add Provider", callback_data="admin:provider:add")])
-    buttons.append([InlineKeyboardButton(text="= Back", callback_data="admin:back")])
+    buttons.append([InlineKeyboardButton(text="➕ Add Provider", callback_data="admin:provider:add")])
+    buttons.append([InlineKeyboardButton(text="🔙 Back", callback_data="admin:back")])
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
     return keyboard
@@ -139,24 +139,24 @@ def get_provider_actions_keyboard(provider_id: int, is_active: bool, is_approved
     """Get provider actions keyboard"""
     buttons = []
 
-    row1 = [InlineKeyboardButton(text=" Edit", callback_data=f"admin:provider:edit:{provider_id}")]
+    row1 = [InlineKeyboardButton(text="✏️ Edit", callback_data=f"admin:provider:edit:{provider_id}")]
 
     if not is_approved:
-        row1.append(InlineKeyboardButton(text=" Approve", callback_data=f"admin:provider:approve:{provider_id}"))
+        row1.append(InlineKeyboardButton(text="✅ Approve", callback_data=f"admin:provider:approve:{provider_id}"))
 
     buttons.append(row1)
 
     buttons.append(
         [
             InlineKeyboardButton(
-                text="= Toggle Active" if is_active else " Activate",
+                text="🔄 Toggle Active" if is_active else "✅ Activate",
                 callback_data=f"admin:provider:toggle:{provider_id}",
             )
         ]
     )
 
-    buttons.append([InlineKeyboardButton(text="=� Delete", callback_data=f"admin:provider:delete:{provider_id}")])
-    buttons.append([InlineKeyboardButton(text="= Back", callback_data="admin:providers")])
+    buttons.append([InlineKeyboardButton(text="🗑 Delete", callback_data=f"admin:provider:delete:{provider_id}")])
+    buttons.append([InlineKeyboardButton(text="🔙 Back", callback_data="admin:providers")])
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
     return keyboard
@@ -167,18 +167,18 @@ def get_approve_providers_keyboard(providers: List[Provider]) -> InlineKeyboardM
     buttons = []
 
     if not providers:
-        buttons.append([InlineKeyboardButton(text=" No pending approvals", callback_data="noop")])
+        buttons.append([InlineKeyboardButton(text="✅ No pending approvals", callback_data="noop")])
     else:
         for provider in providers[:10]:
             buttons.append(
                 [
                     InlineKeyboardButton(
-                        text=f"� {provider.name[:30]}", callback_data=f"admin:provider:approve:{provider.id}"
+                        text=f"⏳ {provider.name[:30]}", callback_data=f"admin:provider:approve:{provider.id}"
                     )
                 ]
             )
 
-    buttons.append([InlineKeyboardButton(text="= Back", callback_data="admin:back")])
+    buttons.append([InlineKeyboardButton(text="🔙 Back", callback_data="admin:back")])
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
     return keyboard
@@ -188,14 +188,14 @@ def get_statistics_keyboard() -> InlineKeyboardMarkup:
     """Get statistics menu keyboard"""
     buttons = [
         [
-            InlineKeyboardButton(text="=e User Stats", callback_data="admin:stats:users"),
-            InlineKeyboardButton(text="=T Provider Stats", callback_data="admin:stats:providers"),
+            InlineKeyboardButton(text="👥 User Stats", callback_data="admin:stats:users"),
+            InlineKeyboardButton(text="👔 Provider Stats", callback_data="admin:stats:providers"),
         ],
         [
-            InlineKeyboardButton(text="P Top Rated", callback_data="admin:stats:toprated"),
-            InlineKeyboardButton(text="=� Most Contacted", callback_data="admin:stats:contacted"),
+            InlineKeyboardButton(text="⭐ Top Rated", callback_data="admin:stats:toprated"),
+            InlineKeyboardButton(text="📞 Most Contacted", callback_data="admin:stats:contacted"),
         ],
-        [InlineKeyboardButton(text="= Back", callback_data="admin:back")],
+        [InlineKeyboardButton(text="🔙 Back", callback_data="admin:back")],
     ]
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
@@ -206,8 +206,8 @@ def get_confirm_keyboard(action: str, item_id: int) -> InlineKeyboardMarkup:
     """Get confirmation keyboard"""
     buttons = [
         [
-            InlineKeyboardButton(text=" Confirm", callback_data=f"admin:confirm:{action}:{item_id}"),
-            InlineKeyboardButton(text="L Cancel", callback_data="admin:cancel"),
+            InlineKeyboardButton(text="✅ Confirm", callback_data=f"admin:confirm:{action}:{item_id}"),
+            InlineKeyboardButton(text="❌ Cancel", callback_data="admin:cancel"),
         ]
     ]
 
@@ -217,7 +217,7 @@ def get_confirm_keyboard(action: str, item_id: int) -> InlineKeyboardMarkup:
 
 def get_cancel_keyboard() -> InlineKeyboardMarkup:
     """Get cancel keyboard"""
-    buttons = [[InlineKeyboardButton(text="L Cancel", callback_data="admin:cancel")]]
+    buttons = [[InlineKeyboardButton(text="❌ Cancel", callback_data="admin:cancel")]]
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
     return keyboard
