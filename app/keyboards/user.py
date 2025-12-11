@@ -1,4 +1,4 @@
-"""User keyboards"""
+"""User keyboards with proper UTF-8 emojis"""
 
 from typing import List, Optional
 from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeyboardMarkup, KeyboardButton
@@ -9,19 +9,19 @@ def get_main_menu_keyboard(lang: str = "ru") -> ReplyKeyboardMarkup:
     """Get main menu keyboard"""
     texts = {
         "en": {
-            "browse": "Browse Services",
-            "favorites": "My Favorites",
-            "language": "Language",
+            "browse": "🔍 Browse Services",
+            "favorites": "❤️ My Favorites",
+            "language": "🌐 Language",
         },
         "ru": {
-            "browse": "Poisk uslug",
-            "favorites": "Izbrannoe",
-            "language": "Yazyk",
+            "browse": "🔍 Poisk uslug",
+            "favorites": "❤️ Izbrannoe",
+            "language": "🌐 Yazyk",
         },
         "uz": {
-            "browse": "Xizmatlarni korish",
-            "favorites": "Sevimlilar",
-            "language": "Til",
+            "browse": "🔍 Xizmatlarni korish",
+            "favorites": "❤️ Sevimlilar",
+            "language": "🌐 Til",
         },
     }
 
@@ -43,7 +43,7 @@ def get_locations_keyboard(locations: List[Location], lang: str = "ru") -> Inlin
 
     for location in locations:
         name = getattr(location, f"name_{lang}", location.name_en)
-        buttons.append([InlineKeyboardButton(text=name, callback_data=f"location:{location.id}")])
+        buttons.append([InlineKeyboardButton(text=f"📍 {name}", callback_data=f"location:{location.id}")])
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
     return keyboard
@@ -55,7 +55,7 @@ def get_categories_keyboard(categories: List[Category], lang: str = "ru") -> Inl
 
     for category in categories:
         name = getattr(category, f"name_{lang}", category.name_en)
-        icon = category.icon or ""
+        icon = category.icon or "📋"
         buttons.append([InlineKeyboardButton(text=f"{icon} {name}", callback_data=f"category:{category.id}")])
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
@@ -73,34 +73,34 @@ def get_provider_keyboard(
     """Get provider details keyboard with navigation"""
     texts = {
         "en": {
-            "contact": "Contact",
-            "rate": "Rate",
-            "save": "Save",
-            "unsave": "Remove",
-            "prev": "< Previous",
-            "next": "Next >",
-            "back": "< Back to Categories",
-            "already_rated": "Rated",
+            "contact": "📞 Contact",
+            "rate": "⭐ Rate",
+            "save": "❤️ Save",
+            "unsave": "💔 Remove",
+            "prev": "◀️ Previous",
+            "next": "Next ▶️",
+            "back": "🔙 Back to Categories",
+            "already_rated": "✅ Rated",
         },
         "ru": {
-            "contact": "Svyazatsya",
-            "rate": "Otsenitsya",
-            "save": "Sohranit",
-            "unsave": "Udalit",
-            "prev": "< Nazad",
-            "next": "Vpered >",
-            "back": "< K kategoriyam",
-            "already_rated": "Otseneno",
+            "contact": "📞 Svyazatsya",
+            "rate": "⭐ Otsenitsya",
+            "save": "❤️ Sohranit",
+            "unsave": "💔 Udalit",
+            "prev": "◀️ Nazad",
+            "next": "Vpered ▶️",
+            "back": "🔙 K kategoriyam",
+            "already_rated": "✅ Otseneno",
         },
         "uz": {
-            "contact": "Boglanish",
-            "rate": "Baholash",
-            "save": "Saqlash",
-            "unsave": "Ochirish",
-            "prev": "< Oldingi",
-            "next": "Keyingi >",
-            "back": "< Kategoriyalarga",
-            "already_rated": "Baholangan",
+            "contact": "📞 Boglanish",
+            "rate": "⭐ Baholash",
+            "save": "❤️ Saqlash",
+            "unsave": "💔 Ochirish",
+            "prev": "◀️ Oldingi",
+            "next": "Keyingi ▶️",
+            "back": "🔙 Kategoriyalarga",
+            "already_rated": "✅ Baholangan",
         },
     }
 
@@ -148,12 +148,12 @@ def get_rating_keyboard(provider_id: int, lang: str = "ru") -> InlineKeyboardMar
     # Stars row
     stars_row = []
     for i in range(1, 6):
-        stars_row.append(InlineKeyboardButton(text=f"{i}", callback_data=f"rating:{provider_id}:{i}"))
+        stars_row.append(InlineKeyboardButton(text=f"{'⭐' * i}", callback_data=f"rating:{provider_id}:{i}"))
 
     buttons.append(stars_row)
 
     # Cancel button
-    texts = {"en": "Cancel", "ru": "Otmena", "uz": "Bekor qilish"}
+    texts = {"en": "❌ Cancel", "ru": "❌ Otmena", "uz": "❌ Bekor qilish"}
     buttons.append([InlineKeyboardButton(text=texts.get(lang, texts["ru"]), callback_data="rating:cancel")])
 
     keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
@@ -163,9 +163,9 @@ def get_rating_keyboard(provider_id: int, lang: str = "ru") -> InlineKeyboardMar
 def get_comment_keyboard(provider_id: int, rating: int, lang: str = "ru") -> InlineKeyboardMarkup:
     """Get comment options keyboard"""
     texts = {
-        "en": {"skip": "Skip Comment", "cancel": "Cancel"},
-        "ru": {"skip": "Bez kommentariya", "cancel": "Otmena"},
-        "uz": {"skip": "Sharh yozmaslik", "cancel": "Bekor qilish"},
+        "en": {"skip": "⏭️ Skip Comment", "cancel": "❌ Cancel"},
+        "ru": {"skip": "⏭️ Bez kommentariya", "cancel": "❌ Otmena"},
+        "uz": {"skip": "⏭️ Sharh yozmaslik", "cancel": "❌ Bekor qilish"},
     }
 
     t = texts.get(lang, texts["ru"])
@@ -183,8 +183,8 @@ def get_language_keyboard() -> InlineKeyboardMarkup:
     """Get language selection keyboard"""
     buttons = [
         [
-            InlineKeyboardButton(text="Russkiy", callback_data="lang:ru"),
-            InlineKeyboardButton(text="Ozbekcha", callback_data="lang:uz"),
+            InlineKeyboardButton(text="🇷🇺 Russkiy", callback_data="lang:ru"),
+            InlineKeyboardButton(text="🇺🇿 Ozbekcha", callback_data="lang:uz"),
         ]
     ]
 
@@ -192,12 +192,32 @@ def get_language_keyboard() -> InlineKeyboardMarkup:
     return keyboard
 
 
-def get_favorites_navigation_keyboard(current: int, total: int, provider_id: int, lang: str = "ru") -> InlineKeyboardMarkup:
+def get_favorites_navigation_keyboard(
+    current: int, total: int, provider_id: int, lang: str = "ru"
+) -> InlineKeyboardMarkup:
     """Get favorites navigation keyboard"""
     texts = {
-        "en": {"remove": "Remove", "contact": "Contact", "prev": "<", "next": ">", "back": "Back"},
-        "ru": {"remove": "Udalit", "contact": "Svyazatsya", "prev": "<", "next": ">", "back": "Nazad"},
-        "uz": {"remove": "Ochirish", "contact": "Boglanish", "prev": "<", "next": ">", "back": "Ortga"},
+        "en": {
+            "remove": "💔 Remove",
+            "contact": "📞 Contact",
+            "prev": "◀️",
+            "next": "▶️",
+            "back": "🔙 Back"
+        },
+        "ru": {
+            "remove": "💔 Udalit",
+            "contact": "📞 Svyazatsya",
+            "prev": "◀️",
+            "next": "▶️",
+            "back": "🔙 Nazad"
+        },
+        "uz": {
+            "remove": "💔 Ochirish",
+            "contact": "📞 Boglanish",
+            "prev": "◀️",
+            "next": "▶️",
+            "back": "🔙 Ortga"
+        },
     }
 
     t = texts.get(lang, texts["ru"])
