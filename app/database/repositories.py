@@ -35,6 +35,7 @@ class UserRepository:
         first_name: Optional[str] = None,
         last_name: Optional[str] = None,
         language_code: str = "en",
+        is_admin: bool = False,
     ) -> User:
         """Create new user"""
         user = User(
@@ -43,6 +44,7 @@ class UserRepository:
             first_name=first_name,
             last_name=last_name,
             language_code=language_code,
+            is_admin=is_admin,
         )
         self.session.add(user)
         await self.session.commit()
@@ -86,11 +88,12 @@ class UserRepository:
         first_name: Optional[str] = None,
         last_name: Optional[str] = None,
         language_code: str = "en",
+        is_admin: bool = False,
     ) -> User:
         """Get or create user"""
         user = await self.get_by_telegram_id(telegram_id)
         if not user:
-            user = await self.create(telegram_id, username, first_name, last_name, language_code)
+            user = await self.create(telegram_id, username, first_name, last_name, language_code, is_admin)
         return user
 
 
