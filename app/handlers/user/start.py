@@ -7,6 +7,7 @@ from aiogram.types import Message, CallbackQuery, ReplyKeyboardRemove
 from aiogram.fsm.context import FSMContext
 from sqlalchemy.ext.asyncio import AsyncSession
 
+from app.config import settings
 from app.database.repositories import UserRepository, LocationRepository
 from app.keyboards.user import (
     get_main_menu_keyboard,
@@ -40,13 +41,19 @@ async def cmd_start(message: Message, session: AsyncSession, state: FSMContext):
         # New user, start registration process
         # Create user with minimal information
         lang_code = message.from_user.language_code or "ru"
+        # Check if user is an admin
+        is_admin = message.from_user.id in settings.admin_list
         user = await user_repo.create(
             telegram_id=message.from_user.id,
             username=message.from_user.username,
             language_code=lang_code,
+            is_admin=is_admin,
         )
 
-        logger.info(f"New user {user.telegram_id} started registration")
+        if is_admin:
+            logger.info(f"New ADMIN user {user.telegram_id} started registration")
+        else:
+            logger.info(f"New user {user.telegram_id} started registration")
 
         # Start registration flow
         registration_texts = {
