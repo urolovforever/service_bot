@@ -5,6 +5,36 @@ from aiogram.types import InlineKeyboardMarkup, InlineKeyboardButton, ReplyKeybo
 from app.database.models import Location, Category, Provider
 
 
+def get_phone_request_keyboard(lang: str = "ru") -> ReplyKeyboardMarkup:
+    """Get keyboard with phone number request button"""
+    texts = {
+        "en": "📱 Share Phone Number",
+        "ru": "📱 Podelit nomerom telefona",
+        "uz": "📱 Telefon raqamni yuborish",
+    }
+
+    keyboard = ReplyKeyboardMarkup(
+        keyboard=[
+            [KeyboardButton(text=texts.get(lang, texts["ru"]), request_contact=True)]
+        ],
+        resize_keyboard=True,
+        one_time_keyboard=True,
+    )
+    return keyboard
+
+
+def get_location_selection_keyboard(locations: List[Location], lang: str = "ru") -> InlineKeyboardMarkup:
+    """Get keyboard for location selection during registration"""
+    buttons = []
+
+    for location in locations:
+        name = getattr(location, f"name_{lang}", location.name_en)
+        buttons.append([InlineKeyboardButton(text=f"📍 {name}", callback_data=f"reg_location:{location.id}")])
+
+    keyboard = InlineKeyboardMarkup(inline_keyboard=buttons)
+    return keyboard
+
+
 def get_main_menu_keyboard(lang: str = "ru") -> ReplyKeyboardMarkup:
     """Get main menu keyboard"""
     texts = {
