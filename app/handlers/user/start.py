@@ -102,9 +102,14 @@ async def cmd_help(message: Message, session: AsyncSession):
 
 @router.message(Command("language"))
 @router.message(F.text.in_(["🌐 Language", "🌐 Yazyk", "🌐 Til"]))
-async def cmd_language(message: Message):
+async def cmd_language(message: Message, session: AsyncSession):
     """Handle language change"""
     keyboard = get_language_keyboard()
+
+    # Get user's current language to show prompt in their language
+    user_repo = UserRepository(session)
+    user = await user_repo.get_by_telegram_id(message.from_user.id)
+    lang = user.language_code if user else "en"
 
     texts = {
         "en": "Choose your language:",
@@ -112,7 +117,7 @@ async def cmd_language(message: Message):
         "uz": "Tilingizni tanlang:",
     }
 
-    await message.answer(texts.get("ru"), reply_markup=keyboard)
+    await message.answer(texts.get(lang, texts["en"]), reply_markup=keyboard)
 
 
 @router.callback_query(F.data.startswith("lang:"))

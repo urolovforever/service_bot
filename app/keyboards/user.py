@@ -183,7 +183,10 @@ def get_language_keyboard() -> InlineKeyboardMarkup:
     """Get language selection keyboard"""
     buttons = [
         [
+            InlineKeyboardButton(text="🇬🇧 English", callback_data="lang:en"),
             InlineKeyboardButton(text="🇷🇺 Russkiy", callback_data="lang:ru"),
+        ],
+        [
             InlineKeyboardButton(text="🇺🇿 Ozbekcha", callback_data="lang:uz"),
         ]
     ]
