@@ -56,6 +56,29 @@ class UserRepository:
         )
         await self.session.commit()
 
+    async def update_user_info(
+        self,
+        telegram_id: int,
+        first_name: Optional[str] = None,
+        last_name: Optional[str] = None,
+        phone_number: Optional[str] = None,
+        location_id: Optional[int] = None,
+    ) -> None:
+        """Update user information"""
+        values = {}
+        if first_name is not None:
+            values["first_name"] = first_name
+        if last_name is not None:
+            values["last_name"] = last_name
+        if phone_number is not None:
+            values["phone_number"] = phone_number
+        if location_id is not None:
+            values["location_id"] = location_id
+
+        if values:
+            await self.session.execute(update(User).where(User.telegram_id == telegram_id).values(**values))
+            await self.session.commit()
+
     async def get_or_create(
         self,
         telegram_id: int,

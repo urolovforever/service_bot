@@ -33,6 +33,8 @@ class User(Base):
     username: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     first_name: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
     last_name: Mapped[Optional[str]] = mapped_column(String(255), nullable=True)
+    phone_number: Mapped[Optional[str]] = mapped_column(String(50), nullable=True)
+    location_id: Mapped[Optional[int]] = mapped_column(Integer, ForeignKey("locations.id"), nullable=True)
     language_code: Mapped[str] = mapped_column(String(10), default="en", nullable=False)
     is_active: Mapped[bool] = mapped_column(Boolean, default=True, nullable=False)
     is_admin: Mapped[bool] = mapped_column(Boolean, default=False, nullable=False)
@@ -42,6 +44,7 @@ class User(Base):
     )
 
     # Relationships
+    location: Mapped[Optional["Location"]] = relationship("Location")
     ratings: Mapped[List["Rating"]] = relationship("Rating", back_populates="user", cascade="all, delete-orphan")
     favorites: Mapped[List["Favorite"]] = relationship(
         "Favorite", back_populates="user", cascade="all, delete-orphan"
